@@ -9,25 +9,32 @@ import Foundation
 import UIKit
 
 
-class HomeViewController: UIViewController, UITabBarDelegate {
+class HomeViewController: UIViewController, UITabBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    private let roomTabs: [String] = ["Living Room", "Bedroom 1", "Dining", "Kitchen", "Lawn"]
+    private var selectedIndex: Int = 0
     
     
     lazy var headerView: HeaderView = {
         let view = HeaderView()
         return view
     }()
+        
     
-    private let roomTabs: UISegmentedControl = {
-        let  segmentedControl = UISegmentedControl(items: ["Living Room", "Bedroom 1", "Dining", "Kitchen"])
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.backgroundColor = .systemGray6
-        segmentedControl.selectedSegmentTintColor = .white
-        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.gray], for: .normal)
-        segmentedControl.layer.cornerRadius = 50
-        segmentedControl.layer.masksToBounds = true
-        return segmentedControl
-       }()
+    private lazy var collectionView: UICollectionView = {
+         let layout = UICollectionViewFlowLayout()
+         layout.scrollDirection = .horizontal
+         layout.minimumLineSpacing = 10 // Space between items
+         layout.minimumInteritemSpacing = 10
+         
+         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+         collectionView.backgroundColor = .systemGray5
+         collectionView.showsHorizontalScrollIndicator = false
+         collectionView.delegate = self
+         collectionView.dataSource = self
+         collectionView.register(TabCell.self, forCellWithReuseIdentifier: TabCell.identifier)
+         return collectionView
+     }()
     
     lazy var acTempView: AcTempView = {
         let view = AcTempView()
@@ -123,7 +130,7 @@ class HomeViewController: UIViewController, UITabBarDelegate {
           return view
       }()
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSubViews()
@@ -134,19 +141,20 @@ class HomeViewController: UIViewController, UITabBarDelegate {
     }
     
     fileprivate func setUpSubViews() {
-        view.addSubviews(with: [headerView, roomTabs, acTempView, smartTvView, lampView, routerView, speakerView, tabBar, dotView])
+        view.addSubviews(with: [headerView, acTempView, smartTvView, lampView, routerView, speakerView, tabBar, dotView, collectionView])
         
         headerView.top              == view.safeAreaLayoutGuide.topAnchor
         headerView.leading          == view.leading + .ratioHeightBasedOniPhoneX(10)
         headerView.trailing         == view.trailing - .ratioHeightBasedOniPhoneX(10)
         headerView.height           == .ratioHeightBasedOniPhoneX(120)
         
-        roomTabs.top                == headerView.bottom + .ratioHeightBasedOniPhoneX(10)
-        roomTabs.leading            == view.leading + .ratioHeightBasedOniPhoneX(10)
-        roomTabs.trailing           == view.trailing - .ratioHeightBasedOniPhoneX(10)
         
+        collectionView.leading      == view.leading + .ratioWidthBasedOniPhoneX(10)
+        collectionView.trailing     == view.trailing - .ratioWidthBasedOniPhoneX(10)
+        collectionView.top          == headerView.bottom + .ratioHeightBasedOniPhoneX(5)
+        collectionView.height       == .ratioHeightBasedOniPhoneX(40)
         
-        acTempView.top              ==  roomTabs.bottom + .ratioHeightBasedOniPhoneX(20)
+        acTempView.top              ==  collectionView.bottom + .ratioHeightBasedOniPhoneX(20)
         acTempView.leading          == view.leading + .ratioHeightBasedOniPhoneX(10)
         acTempView.trailing         == view.trailing - .ratioHeightBasedOniPhoneX(10)
         acTempView.height           ==  .ratioHeightBasedOniPhoneX(150)
@@ -176,6 +184,31 @@ class HomeViewController: UIViewController, UITabBarDelegate {
         tabBar.trailing             == view.trailing - .ratioWidthBasedOniPhoneX(10)
         tabBar.height               == .ratioHeightBasedOniPhoneX(60)
     }
+    
+    
+    // MARK: - UICollectionView DataSource and Delegate
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return roomTabs.count
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TabCell.identifier, for: indexPath) as! TabCell
+            let isSelected = indexPath.item == selectedIndex
+            cell.configure(with: roomTabs[indexPath.item], isSelected: isSelected)
+            return cell
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            selectedIndex = indexPath.item
+            collectionView.reloadData()
+            print("Selected tab: \(roomTabs[indexPath.item])")
+        }
+        
+        
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            let width = roomTabs[indexPath.item].size(withAttributes: [.font: UIFont.systemFont(ofSize: 16)]).width + 20
+            return CGSize(width: width, height: 40)
+        }
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         guard let index = tabBar.items?.firstIndex(of: item) else { return }

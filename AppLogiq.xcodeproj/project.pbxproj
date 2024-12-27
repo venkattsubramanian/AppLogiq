@@ -17,6 +17,7 @@
 		FB67E9612D1DCE5900C51536 /* AcTempView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB67E9602D1DCE5900C51536 /* AcTempView.swift */; };
 		FB67E9642D1E7E8000C51536 /* Extension + UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB67E9632D1E7E8000C51536 /* Extension + UIImage.swift */; };
 		FB67E9662D1E84CC00C51536 /* SubControllViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB67E9652D1E84CC00C51536 /* SubControllViews.swift */; };
+		FB67E9682D1EB66400C51536 /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB67E9672D1EB66400C51536 /* TabCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		FB67E9602D1DCE5900C51536 /* AcTempView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcTempView.swift; sourceTree = "<group>"; };
 		FB67E9632D1E7E8000C51536 /* Extension + UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIImage.swift"; sourceTree = "<group>"; };
 		FB67E9652D1E84CC00C51536 /* SubControllViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubControllViews.swift; sourceTree = "<group>"; };
+		FB67E9672D1EB66400C51536 /* TabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				FB67E95B2D1DBECE00C51536 /* HeaderView.swift */,
 				FB67E9602D1DCE5900C51536 /* AcTempView.swift */,
 				FB67E9652D1E84CC00C51536 /* SubControllViews.swift */,
+				FB67E9672D1EB66400C51536 /* TabCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				FB67E9642D1E7E8000C51536 /* Extension + UIImage.swift in Sources */,
 				FB67E9612D1DCE5900C51536 /* AcTempView.swift in Sources */,
 				FB67E95C2D1DBECE00C51536 /* HeaderView.swift in Sources */,
+				FB67E9682D1EB66400C51536 /* TabCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

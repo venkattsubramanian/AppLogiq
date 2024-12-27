@@ -138,6 +138,4 @@ class SubControllViews: UIView {
         OnOffLabel.text = setOnOffLabel
         connectLabel.text = setconnectLabel
        }
-    
-    
 }
